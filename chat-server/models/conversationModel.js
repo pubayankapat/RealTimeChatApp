@@ -2,17 +2,17 @@ import mongoose from "mongoose";
 
 
 
-const conversationModel = new mongoose.Schema({
+const conversationSchema = new mongoose.Schema({
     participants:[
         {
             type:mongoose.Schema.ObjectId,
-            ref:"user"
+            ref:"User"
         }
     ],
     message:[
         {
             type:mongoose.Schema.Types.ObjectId,
-            ref:"message",
+            ref:"Message",
             default:[]
         }
     ]

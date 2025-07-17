@@ -12,7 +12,7 @@ const messageSchema = new mongoose.Schema({
         required: true
     },
     message:{
-        true: String,
+        type: String,
         required: true
     },
     conversationId: {
