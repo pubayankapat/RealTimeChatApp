@@ -8,4 +8,5 @@ const dbConnect = async()=>{
         console.log(console.error);
     }
 }
+
 export default dbConnect

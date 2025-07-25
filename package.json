@@ -4,9 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "concurrently \"npm run chat-server\" \"npm run chat-client\" ",
+    "start": "concurrently \"npm run chat-server\" \"npm run chat-client\"",
     "chat-server": "nodemon chat-server/index.js",
-    "chat-client": "cd chat-client && ng serve"
+    "chat-client": "cd chat-client && npm run dev"
   },
   "author": "",
   "license": "ISC",
