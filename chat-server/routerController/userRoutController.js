@@ -49,16 +49,16 @@ export const userLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email })
-        if (!user) return res.status(500).send({ success: false, mesage: "Email doesn't exist Register" })
+        if (!user) return res.status(500).send({ success: false, message: "Email doesn't exist or Register" })
         const comparePass = bcrypt.compareSync(password, user.password || "")
-        if (!comparePass) return res.status(200).send({ success: false })
+        if (!comparePass) return res.status(200).send({ success: false, message: "Email or password is invalid"})
 
         jwtToken(user._id, res)
 
         res.status(200).send({
             _id: user._id,
             fullname: user.fullname,
-            usernamses: user.username,
+            username: user.username,
             profilepic: user.profilepic,
             email: user.email,
             message: "Successfully login"
