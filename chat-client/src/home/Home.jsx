@@ -1,17 +1,20 @@
 import React from 'react'
 // import { useAuth } from '../context/AuthContext'
-import  SideBar  from './components/SideBar';
-import  MessageContainer  from './components/MessageContainer';
+import SideBar from './components/SideBar';
+import MessageContainer from './components/MessageContainer';
 export const Home = () => {
     // const { authUser } = useAuth();
     return (
         <>
             <div className='flex justify-between min-w-full
-            md:min-w-[550px] md:max-w-[65%]
+            md:min-w-[750px] md:max-w-[85%]
             px-2 h-[95%] md:h-full  
-            rounded-xl shadow-lg
-             bg-gray-400 bg-clip-padding
-            backdrop-filter backdrop-blur-lg 
+            rounded-xl 
+            shadow-lg
+             bg-gray-420 
+            bg-clip-padding
+            backdrop-filter 
+            backdrop-blur-lg 
             bg-opacity-0'>
                 <div>
                     <SideBar />

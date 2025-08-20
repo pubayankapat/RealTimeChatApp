@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { FaMagnifyingGlass } from "react-icons/fa6";
@@ -7,11 +7,33 @@ import { useNavigate } from 'react-router-dom';
 
 const SideBar = () => {
     const navigate = useNavigate();
-    const {authUser} = useAuth()
+    const { authUser } = useAuth()
     const [searchInput, setSearchInput] = useState('');
-    const [searchUser, setSearchUser] = useState([])
+    const [searchUser, setSearchUser] = useState([]);
+    const [chatUser, setChatUser] = useState([]);
     const [Loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        const chatUserHandler = async () => {
+            setLoading(true);
+            try {
+                const response = await axios.get(`/api/user/currentchatters`);
+                const data = response.data;
+
+                if (data.success === false) {
+                    console.log(data.message);
+                } else {
+                    setChatUser(data);
+                }
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        chatUserHandler();
+    }, []);
 
 
     const handelSearchSubmit = async (e) => {
@@ -46,16 +68,30 @@ const SideBar = () => {
                         onChange={(e) => setSearchInput(e.target.value)}
                         type='text'
                         className='px-4 w-auto bg-transparent outline-none rounded-full'
-                        placeholder='search user'
+                        placeholder='Search User'
                         id='search'
                     />
                     <button type="submit" className='btn btn-circle bg-sky-700 hover:bg-gray-950 text-white'>
                         <FaMagnifyingGlass size={20} />
                     </button>
                 </form>
-                 <img onClick={()=>navigate(`/profile/${authUser._id}`)} src={authUser?.profilepic}/>
+                <img onClick={() => navigate(`/profile/${authUser._id}`)}
+                    src={authUser?.profilepic}
+                    className='self-center h-11 w-10 hover:scale-110 cursor-pointers contain-size' />
             </div>
             <div className='divider px-3'></div>
+            {searchUser?.length > 0 ? (
+                <>
+                </>
+            ) : (
+                <>
+                    <div className='min-h-[70%] max-h-[80%] m overflow-y-auto scrollbar'>
+                        <div className='w-auto'>
+                            {chatUser}
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     )
 }
