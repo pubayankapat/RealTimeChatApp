@@ -29,7 +29,7 @@ const Register = () => {
         setLoading(true)
         if (inputData.password.toLowerCase() !== inputData.confpassword.toLowerCase()) {
             setLoading(false)
-            return toast("Password doesn't matched")
+            return toast.error("Password doesn't matched")
         }
         try {
             const register = await axios.post('/api/auth/register', inputData);
@@ -44,7 +44,7 @@ const Register = () => {
             localStorage.setItem('chatrix', JSON.stringify(data));
             setAuthUser(data)
             setLoading(false)
-            navigate('/');
+            navigate('/login');
 
         } catch (error) {
             setLoading(false)
@@ -63,7 +63,7 @@ const Register = () => {
                     </div>
                     <div>
                         <label className="font-bold text-blue-400 text-xl label-text">Username:</label>
-                        <input onChange={handleInput} type="text" id="Username" placeholder="Enter your Username" required className='w-full input h-10 focus:outline-none focus:ring focus:border-blue-600' />
+                        <input onChange={handleInput} type="text" id="username" placeholder="Enter your Username" required className='w-full input h-10 focus:outline-none focus:ring focus:border-blue-600' />
                     </div>
                     <div>
                         <label className="font-bold text-blue-400 text-xl label-text">Email:</label>
