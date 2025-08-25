@@ -57,7 +57,8 @@ const SideBar = () => {
                 toast.info("User Not Found")
             }
             else {
-                setSearchUser(data)
+                setSearchUser(data);
+                setSearchInput('');
             }
         } catch (error) {
             setLoading(false)

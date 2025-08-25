@@ -1,15 +1,42 @@
 import React from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { TiMessages } from "react-icons/ti";
 import userConversation from '../../zustans/useConversation';
 import { IoArrowBackSharp, IoSend } from 'react-icons/io5';
+import axios from 'axios';
 
 
 const MessageContainer = () => {
 
-  const { messages, selectedConversation, setSelectedConversation } = userConversation();
+  const { messages, selectedConversation, setMessage, setSelectedConversation } = userConversation();
   const { authUser } = useAuth();
-  const onBackUser = () =>{
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const getMessage = async () => {
+      setLoading(true);
+      try {
+        const get = await axios.get(`/api/message/${selectedConversation._id}`);
+        const data = get.data;
+        if (data.success === false) {
+          setLoading(false);
+          console.log(data.message);
+        }
+        setLoading(false);
+        setMessage(data);
+      } catch (error) {
+        setLoading(false);
+        console.log(error);
+      }
+    }
+
+
+    if (selectedConversation?._id) getMessage()
+  }, [selectedConversation?._id, setMessage])
+  console.log(messages);
+
+  const onBackUser = () => {
 
   }
   return (
@@ -31,7 +58,7 @@ const MessageContainer = () => {
             <div className='flex gap-2 md:justify-between items-center w-full'>
               <div className='md:hidden ml-1 self-center'>
                 <button onClick={() => onBackUser(true)} className='bg-black rounded-full px-2 py-1
-                   self-center'>
+                  self-center'>
                   <IoArrowBackSharp size={25} />
                 </button>
               </div>
@@ -44,6 +71,17 @@ const MessageContainer = () => {
                 </span>
               </div>
             </div>
+          </div>
+          <div className="flex-1 overflow-auto">
+            {loading && (
+              <div className="flex w-full h-full flex-col items-center justify-center 
+                gap-4 bg-transparent">
+                <div className="loading loading-spinner"></div>
+              </div>
+            )}
+            {!loading && messages?.length === 0 && (
+              <p className='text-center text-white items-center'>Send a message to start Conversation</p>
+            )}
           </div>
         </>
       )}
