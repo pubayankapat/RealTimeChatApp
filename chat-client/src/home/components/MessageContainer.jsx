@@ -82,6 +82,20 @@ const MessageContainer = () => {
             {!loading && messages?.length === 0 && (
               <p className='text-center text-white items-center'>Send a message to start Conversation</p>
             )}
+            {!loading && messages?.length > 0 && messages?.map((message) =>(
+              
+              <div className={`chat ${message.senderId === authUser._id ? 'chat-end':'chat-start'}`}>
+                <div className = 'chat-image avatar'></div>
+                <div className={`chat-bubble ${message.senderId === authUser._id ? 'bg-sky-600':''}`}>
+                  {message?.message}
+                </div>
+                <div className='chat-footer text-[10px] opacity-80 text-white'>
+                  {new Date(message?.createdAt).toLocaleDateString('en-In')}
+                  {new Date(message?.createdAt).toLocaleDateString('en-In',{hour:'numeric',minute:'numeric'})}
+
+                </div>
+              </div>
+            ))}
           </div>
         </>
       )}

@@ -18,7 +18,7 @@ export const Home = () => {
   return (
 
     <div className='flex justify-between min-w-full
-     md:min-w-[850px] md:max-w-[85%]
+     md:min-w-[850px] md:max-w-[80 %]
       px-2 h-[95%] md:h-full  
       rounded-xl shadow-lg
        bg-gray-350 bg-clip-padding
