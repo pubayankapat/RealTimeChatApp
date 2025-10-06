@@ -9,7 +9,7 @@ import { BiLogOut } from "react-icons/bi";
 import userConversation from '../../zustans/useConversation';
 
 
-const SideBar = () => {
+const SideBar = ({ onSelectUser }) => {
     const navigate = useNavigate();
     const { authUser, setAuthUser } = useAuth()
     const [searchInput, setSearchInput] = useState('');
@@ -68,14 +68,15 @@ const SideBar = () => {
 
 
     const handelUserClick = (user) => {
+        onSelectUser(user);
         setSelectedConversation(user);
-        setSelectedUserId(user._id)
+        setSelectedUserId(user._id);
 
     }
 
     const handSearchback = () => {
         setSearchUser([]);
-        setSearchInput('')
+        setSearchInput('');
     }
 
     const handelLogOut = async () => {
