@@ -39,8 +39,6 @@ const MessageContainer = ({ onBackUser }) => {
         console.log(error);
       }
     }
-
-
     if (selectedConversation?._id) getMessage()
   }, [selectedConversation?._id, setMessage])
   console.log(messages);
@@ -57,10 +55,11 @@ const MessageContainer = ({ onBackUser }) => {
        if (data.success === false) {
           setLoading(false);
           console.log(data.message);
-        }
+        }else{
         setSending(false);
-        setMessage([...messages,data])
-
+        setMessage([...messages,data]);
+        setSendData('');
+        }
     } catch (error) {
       setSending(false);
       console.log(error);
