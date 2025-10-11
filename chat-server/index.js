@@ -5,7 +5,10 @@ import authRout from './rout/authUser.js';
 import messageRout from './rout/messageRout.js';
 import cookieParser from "cookie-parser"
 import userRout from "./rout/userRout.js";
-const app = express();
+import {app, server} from './socket/socket.js';
+
+
+
 dotenv.config();
 
 
@@ -19,6 +22,6 @@ app.use(cookieParser());
 app.use('/api/auth',authRout);
 app.use('/api/message',messageRout);
 app.use('/api/user',userRout)
-app.listen(PORT, ()=>{
+server.listen(PORT, ()=>{
     console.log(`Working at http://localhost:${PORT}`);
 })
