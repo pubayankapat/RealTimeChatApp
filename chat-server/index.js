@@ -17,11 +17,11 @@ const PORT = process.env.PORT;
 app.get('/',(req,res)=>{
     res.send("Server working");
 })
+server.listen(PORT, ()=>{
+    console.log(`Working at http://localhost:${PORT}`);
+})
 app.use(express.json());
 app.use(cookieParser());
 app.use('/api/auth',authRout);
 app.use('/api/message',messageRout);
 app.use('/api/user',userRout)
-server.listen(PORT, ()=>{
-    console.log(`Working at http://localhost:${PORT}`);
-})

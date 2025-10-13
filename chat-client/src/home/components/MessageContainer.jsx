@@ -5,13 +5,13 @@ import { TiMessages } from "react-icons/ti";
 import userConversation from '../../zustans/useConversation';
 import { IoArrowBackSharp, IoSend } from 'react-icons/io5';
 import axios from 'axios';
-import { useSocketContext } from '../../context/socketContext';
+import { useSocketContext } from '../../context/SocketContext';
 import notify from '../../assets/notification.mp3';
 
 const MessageContainer = ({ onBackUser }) => {
 
-  const { messages, selectedConversation, setMessage, setSelectedConversation } = userConversation();
-  const {socket} = useSocketContext();
+  const { messages, selectedConversation, setMessage } = userConversation();
+  const { socket } = useSocketContext();
   const { authUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
@@ -19,12 +19,12 @@ const MessageContainer = ({ onBackUser }) => {
   const lastMessageRef = useRef();
 
   useEffect(()=>{
-    socket?.on("newMessages",(newMessages)=>{
-      const sound = new Audio(notify)
+    socket?.on("newMessage",(newMessage)=>{
+      const sound = new Audio(notify);
       sound.play();
-      setMessage([...messages, newMessages])
+      setMessage([...messages, newMessage])
     })
-    return ()=> socket?.off("newMessages");
+    return ()=> socket?.off("newMessage");
   },[socket, setMessage, messages])
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const MessageContainer = ({ onBackUser }) => {
     }
     if (selectedConversation?._id) getMessage()
   }, [selectedConversation?._id, setMessage])
-  console.log(messages);
+
 
   const handelMessage = (e) => {
     setSendData(e.target.value);

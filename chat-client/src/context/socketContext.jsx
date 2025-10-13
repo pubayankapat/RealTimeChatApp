@@ -1,24 +1,23 @@
-import { createContext, useContext, useEffect, useState} from 'react'
+import { createContext, useContext, useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { useAuth } from './AuthContext';
 
-
 const SocketContext = createContext();
 
-export const useSocketContext = () => {
+export const useSocketContext=()=>{
     return useContext(SocketContext);
 }
 
-export const SocketContextProvider = ({children}) => {
-    const [socket, setSocket] = useState(null);
-    const [onlineUser, setOnlineUser] = useState([]);
+export const SocketContextProvider=({children})=>{
+    const [socket , setSocket]= useState(null);
+    const [onlineUser, setOnlineUser]=useState([]);
     const {authUser} = useAuth();
-
+    
     useEffect(()=>{
         if(authUser){
-            const socket = io("http://localhost/3000/",{
+            const socket = io("http://localhost:3000/",{
                 query:{
-                    userId:authUser?._id,
+                    userId: authUser?._id,
                 }
             })
             socket.on("getOnlineUsers",(users)=>{
@@ -29,12 +28,12 @@ export const SocketContextProvider = ({children}) => {
         }else{
             if(socket){
                 socket.close();
-                setSocket(null);
+                setSocket(null); 
             }
         }
-    },[authUser]);
+    },[ authUser ]);
     return(
-    <SocketContext.Provider value ={{socket, onlineUser}}>
+    <SocketContext.Provider value={{socket , onlineUser}}>
         {children}
     </SocketContext.Provider>
     )
