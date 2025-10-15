@@ -16,7 +16,7 @@ const MessageContainer = ({ onBackUser }) => {
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
   const [sendData, setSendData] = useState('');
-  const lastMessageRef = useRef();
+  const lastMessageRef = useRef(null);
 
   useEffect(()=>{
     socket?.on("newMessage",(newMessage)=>{
@@ -31,7 +31,7 @@ const MessageContainer = ({ onBackUser }) => {
     setTimeout(() => {
       lastMessageRef.current?.scrollIntoView({ behaviour: "smooth" })
     }, 100)
-  }, [])
+  }, [messages])
 
   useEffect(() => {
     const getMessage = async () => {
