@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { BiLogOut } from "react-icons/bi";
 import userConversation from '../../zustans/useConversation';
+import { useSocketContext } from '../../context/SocketContext';
 
 
 const SideBar = ({ onSelectUser }) => {
@@ -17,7 +18,27 @@ const SideBar = ({ onSelectUser }) => {
     const [chatUser, setChatUser] = useState([]);
     const [Loading, setLoading] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState(null);
-    const { messages, selectedConversation, setSelectedConversation } = userConversation();
+    const [ newMessageUsers, setNewMessageUsers ] = useState('');
+    const { messages, setSelectedConversation } = userConversation();
+    const { onlineUser, socket } = useSocketContext();
+
+    //chat function 
+    const nowChatOnline = chatUser.map((user) => (user._id));
+    const isChatOnline = nowChatOnline.map((userId) => onlineUser.includes(userId));
+    
+    // Search function
+    const nowSearchOnline = searchUser.map((user) => (user._id))
+    const isSearchOnline = nowSearchOnline.map((userId) => onlineUser.includes(userId))
+
+    useEffect(()=>{
+        socket?.on("newMessage",(newMessage)=>{
+          setNewMessageUsers(newMessage)
+          
+        })
+        return ()=> socket?.off("newMessage");
+      },[socket, messages])
+    
+  
 
     useEffect(() => {
         const chatUserHandler = async () => {
@@ -71,10 +92,10 @@ const SideBar = ({ onSelectUser }) => {
         onSelectUser(user);
         setSelectedConversation(user);
         setSelectedUserId(user._id);
-
+        setNewMessageUsers('');
     }
 
-    const handSearchback = () => {
+    const handelSearchback = () => {
         setSearchUser([]);
         setSearchInput('');
     }
@@ -134,8 +155,9 @@ const SideBar = ({ onSelectUser }) => {
                                     <div
                                         onClick={() => handelUserClick(user)}
                                         className={`flex gap-3 items-center rounded p-2 py-1 cursor-pointer ${selectedUserId === user?._id ? 'bg-sky-500' : ''} `}>
-                                        <div className="avatar">
-                                            <div className="w-10 h-10 rounded-full">
+                                        {/* Socket is online */}
+                                        <div className= {`avatar ${isSearchOnline[index] ? 'avatar-online' : ''}`}>
+                                            <div className="w-10 rounded-full">
                                                 <img src={user.profilepic} alt="user.img" />
                                             </div>
                                         </div>
@@ -150,7 +172,7 @@ const SideBar = ({ onSelectUser }) => {
                         </div>
                     </div>
                     <div className='mt-auto px-1 py-1 flex'>
-                        <button onClick={handSearchback} className='bg-white rounded-full px-2 py-1 self-center hover:scale-110'>
+                        <button onClick={handelSearchback} className='bg-white rounded-full px-2 py-1 self-center hover:scale-110'>
                             <ArrowLeftIcon className="w-6 h-6 text-gray-700" />
                         </button>
 
@@ -174,13 +196,18 @@ const SideBar = ({ onSelectUser }) => {
                                             <div
                                                 onClick={() => handelUserClick(user)}
                                                 className={`flex gap-3 items=centre rounded p-2 py-1 cursor-pointer' ${selectedUserId === user?._id ? 'bg-sky-500' : ''}`}>
-                                                <div className="avatar">
-                                                    <div className="w-10 h-10 rounded-full">
+                                                <div className = {`avatar ${isChatOnline[index] ? 'avatar-online' : ''}`}>
+                                                    <div className="w-10 rounded-full">
                                                         <img src={user.profilepic} alt="user.img" />
                                                     </div>
                                                 </div>
                                                 <div>
                                                     <p className='font-bold text-gray-300 p-2'>{user.username}</p>
+                                                </div>
+                                                <div>
+                                                    { newMessageUsers.recieverId === authUser._id && newMessageUsers.senderId === user._id ?
+                                                    <div className="rounded-full bg-green-700 text-sm text-white px-[4px]">+1</div>:<></>
+                                                        }
                                                 </div>
                                             </div>
                                             <div className='divider px-3'></div>
