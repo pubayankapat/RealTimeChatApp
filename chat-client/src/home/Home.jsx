@@ -4,14 +4,14 @@ import MessageContainer from './components/MessageContainer';
 
 export const Home = () => {
 
-  const [selectedUser , setSelectedUser] = useState();
-  const [isSideBarVisible , setIsSideBarVisible]= useState(true);
+  const [selectedUser, setSelectedUser] = useState();
+  const [isSideBarVisible, setIsSideBarVisible] = useState(true);
 
-  const handelUserSelect=(user)=>{
+  const handelUserSelect = (user) => {
     setSelectedUser(user);
     setIsSideBarVisible(false);
   }
-  const handelShowSidebar=()=>{
+  const handelShowSidebar = () => {
     setIsSideBarVisible(true);
     setSelectedUser(null);
   }
@@ -24,13 +24,13 @@ export const Home = () => {
        bg-gray-350 bg-clip-padding
         backdrop-filter backdrop-blur-lg 
         bg-opacity-0'
-        >
+    >
       <div className={`w-full py-2 md:flex ${isSideBarVisible ? '' : 'hidden'}`}>
-      <SideBar onSelectUser={handelUserSelect}/>
+        <SideBar onSelectUser={handelUserSelect} />
       </div>
       <div className={`divider divider-horizontal px-3 md:flex ${isSideBarVisible ? '' : 'hidden'} ${selectedUser ? 'block' : 'hidden'}`}></div>
       <div className={`flex-auto ${selectedUser ? '' : 'hidden md:flex'} bg-gray-200}`}>
-      <MessageContainer onBackUser={handelShowSidebar}/>
+        <MessageContainer onBackUser={handelShowSidebar} />
       </div>
     </div>
   );

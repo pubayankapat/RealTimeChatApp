@@ -16,6 +16,7 @@ const Login = () => {
             ...userInput, [e.target.id]: e.target.value
         })
     }
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -31,6 +32,7 @@ const Login = () => {
             toast.success(data.message);
             localStorage.setItem('chatrix',JSON.stringify(data));
             setAuthUser(data)
+            setLoading(false)
             navigate('/');
         } catch (error) {
             console.error(error);

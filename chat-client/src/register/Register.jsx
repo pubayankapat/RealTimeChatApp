@@ -2,11 +2,9 @@ import axios from "axios";
 import React, { useState } from "react"
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from "sonner";
-import { useAuth } from "../context/AuthContext";
 
 const Register = () => {
     const navigate = useNavigate();
-    const { setAuthUser } = useAuth();
     const [inputData, setInputData] = useState({})
     const [loading, setLoading] = useState(false);
 
@@ -41,8 +39,6 @@ const Register = () => {
             }
 
             toast.success(data.message);
-            localStorage.setItem('chatrix', JSON.stringify(data));
-            setAuthUser(data)
             setLoading(false)
             navigate('/login');
 

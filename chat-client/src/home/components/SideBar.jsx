@@ -21,25 +21,7 @@ const SideBar = ({ onSelectUser }) => {
     const { messages, setSelectedConversation } = userConversation();
     const { onlineUser, socket } = useSocketContext();
 
-    //chat function 
-    const nowChatOnline = chatUser.map((user) => (user._id));
-    const isChatOnline = nowChatOnline.map((userId) => onlineUser.includes(userId));
-    
-    // Search function
-    const nowSearchOnline = searchUser.map((user) => (user._id))
-    const isSearchOnline = nowSearchOnline.map((userId) => onlineUser.includes(userId))
-
-    useEffect(()=>{
-        socket?.on("newMessage",(newMessage)=>{
-          setNewMessageUsers(newMessage)
-          
-        })
-        return ()=> socket?.off("newMessage");
-      },[socket, messages])
-    
-  
-
-    useEffect(() => {
+     useEffect(() => {
         const chatUserHandler = async () => {
             setLoading(true);
             try {
@@ -61,6 +43,23 @@ const SideBar = ({ onSelectUser }) => {
         chatUserHandler()
 
     }, []);
+
+    //chat function 
+    const nowChatOnline = chatUser.map((user) => (user._id));
+    const isChatOnline = nowChatOnline.map((userId) => onlineUser.includes(userId));
+    
+    // Search function
+    const nowSearchOnline = searchUser.map((user) => (user._id))
+    const isSearchOnline = nowSearchOnline.map((userId) => onlineUser.includes(userId))
+
+    useEffect(()=>{
+        socket?.on("newMessage",(newMessage)=>{
+          setNewMessageUsers(newMessage)          
+        })
+        return ()=> socket?.off("newMessage");
+      },[socket, messages])
+    
+  
 
 
     const handelSearchSubmit = async (e) => {
@@ -109,7 +108,7 @@ const SideBar = ({ onSelectUser }) => {
                         value={searchInput}
                         onChange={(e) => setSearchInput(e.target.value)}
                         type='text'
-                        className='px-4 w-auto bg-transparent outline-none rounded-full'
+                        className='px-4 w-auto bg-none outline-none rounded-full'
                         placeholder='Search User'
                         id='search'
                     />
@@ -171,7 +170,7 @@ const SideBar = ({ onSelectUser }) => {
                                         <div key={(user._id)}>
                                             <div
                                                 onClick={() => handelUserClick(user)}
-                                                className={`flex gap-3 items=centre rounded p-2 py-1 cursor-pointer' ${selectedUserId === user?._id ? 'bg-sky-500' : ''}`}>
+                                                className={`flex gap-3 items-centre rounded p-2 py-1 cursor-pointer ${selectedUserId === user?._id ? 'bg-sky-500' : ''}`}>
                                                 <div className = {`avatar ${isChatOnline[index] ? 'avatar-online' : ''}`}>
                                                     <div className="w-10 rounded-full">
                                                         <img src={user.profilepic || dp} alt="user.img" />
