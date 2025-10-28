@@ -65,7 +65,7 @@ export const userLogin = async (req, res) => {
             message: "Successfully login"
         })
     } catch (error) {
-        res.send(500).send({
+        res.status(500).send({
             success: false,
             message: error
         }),console.log(error);
@@ -85,5 +85,27 @@ export const userLogout = async(req, res) =>{
             success: false,
             message: error
         })
+    }
+}
+
+export const userProfile = async(req, res) => {
+    try {
+        const { _id } = req.params;
+        const profile = await User.findById(_id)
+        if(!profile) return res.status(500).send({success:false, message:"Profile does not exist"})
+
+        res.status(200).send({
+            fullname: profile.fullname,
+            username: profile.username,
+            profilepic: profile.profilepic,
+            email: profile.email
+        })
+    } catch (error) {
+        res.status(500).send(
+            {
+                success: false,
+                message: error
+            }
+        )
     }
 }

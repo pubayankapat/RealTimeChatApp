@@ -7,6 +7,7 @@ import { IoArrowBackSharp, IoSend } from 'react-icons/io5';
 import axios from 'axios';
 import { useSocketContext } from '../../context/SocketContext';
 import notify from '../../assets/notification.mp3';
+import dp from '../../assets/dp.jpg'
 
 const MessageContainer = ({ onBackUser }) => {
 
@@ -102,7 +103,7 @@ const MessageContainer = ({ onBackUser }) => {
               </div>
               <div className='flex justify-between mr-2 gap-2'>
                 <div className='self-center'>
-                  <img className='rounded-full w-6 h-6 md:w-10 md:h-10 cursor-pointer' src={selectedConversation?.profilepic} />
+                  <img className='rounded-full w-6 h-6 md:w-10 md:h-10 cursor-pointer' src={selectedConversation?.profilepic || dp} />
                 </div>
                 <span className='text-gray-950 self-center text-sm md:text-xl font-bold'>
                   {selectedConversation?.username}

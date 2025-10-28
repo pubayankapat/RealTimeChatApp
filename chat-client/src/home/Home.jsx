@@ -4,7 +4,7 @@ import MessageContainer from './components/MessageContainer';
 
 export const Home = () => {
 
-  const [selectedUser , setSelectedUser] = useState(null);
+  const [selectedUser , setSelectedUser] = useState();
   const [isSideBarVisible , setIsSideBarVisible]= useState(true);
 
   const handelUserSelect=(user)=>{

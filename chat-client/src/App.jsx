@@ -6,6 +6,7 @@ import Register from './register/Register.jsx';
 import { Home } from './home/Home.jsx';
 import { AuthContextProvider } from './context/AuthContext';
 import { VerifyUsers } from './utils/VerifyUsers.jsx';
+import Profile from './home/components/Profile.jsx';
 function App() {
   return (
     <>
@@ -15,6 +16,7 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route element={<VerifyUsers />}>
             <Route path='/' element={<Home />} />
+            <Route path='/profile' element={<Profile />} />
           </Route>
         </Routes>
         <Toaster />

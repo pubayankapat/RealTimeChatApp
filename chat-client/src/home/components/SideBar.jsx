@@ -5,14 +5,13 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
-import { BiLogOut } from "react-icons/bi";
 import userConversation from '../../zustans/useConversation';
 import { useSocketContext } from '../../context/SocketContext';
-
+import dp from '../../assets/dp.jpg'
 
 const SideBar = ({ onSelectUser }) => {
     const navigate = useNavigate();
-    const { authUser, setAuthUser } = useAuth()
+    const { authUser } = useAuth()
     const [searchInput, setSearchInput] = useState('');
     const [searchUser, setSearchUser] = useState([]);
     const [chatUser, setChatUser] = useState([]);
@@ -59,7 +58,8 @@ const SideBar = ({ onSelectUser }) => {
             }
         };
 
-        chatUserHandler();
+        chatUserHandler()
+
     }, []);
 
 
@@ -100,30 +100,6 @@ const SideBar = ({ onSelectUser }) => {
         setSearchInput('');
     }
 
-    const handelLogOut = async () => {
-        const confirmLogOut = window.prompt("type 'Username' to logout");
-        if (confirmLogOut === authUser.username) {
-            setLoading(true);
-            try {
-                const logout = await axios.post('/api/auth/logout')
-                const data = logout.data;
-                if (data.success === false) {
-                    setLoading(false);
-                    toast.error(data.message);
-                }
-                toast.info(data.message);
-                localStorage.removeItem('chatrix')
-                setAuthUser(null);
-                navigate('/login');
-            } catch (error) {
-                console.log(error);
-                setLoading(false);
-            }
-        } else {
-            toast.error("Logout Cancelled");
-        }
-
-    }
 
     return (
         <div className='h-full w-auto px-1'>
@@ -141,8 +117,8 @@ const SideBar = ({ onSelectUser }) => {
                         <FaMagnifyingGlass size={20} />
                     </button>
                 </form>
-                <img onClick={() => navigate(`/profile/${authUser._id}`)}
-                    src={authUser?.profilepic}
+                <img onClick={() => navigate('/profile')}
+                    src={authUser?.profilepic ? authUser.profilepic : dp}
                     className='self-center h-10 w-10 hover:scale-120 cursor-pointers contain-size rounded-full' />
             </div>
             <div className='divider px-3'></div>
@@ -158,7 +134,7 @@ const SideBar = ({ onSelectUser }) => {
                                         {/* Socket is online */}
                                         <div className= {`avatar ${isSearchOnline[index] ? 'avatar-online' : ''}`}>
                                             <div className="w-10 rounded-full">
-                                                <img src={user.profilepic} alt="user.img" />
+                                                <img src={user.profilepic || dp} alt="user.img" />
                                             </div>
                                         </div>
                                         <div className='flex flex-col flex-1'>
@@ -198,7 +174,7 @@ const SideBar = ({ onSelectUser }) => {
                                                 className={`flex gap-3 items=centre rounded p-2 py-1 cursor-pointer' ${selectedUserId === user?._id ? 'bg-sky-500' : ''}`}>
                                                 <div className = {`avatar ${isChatOnline[index] ? 'avatar-online' : ''}`}>
                                                     <div className="w-10 rounded-full">
-                                                        <img src={user.profilepic} alt="user.img" />
+                                                        <img src={user.profilepic || dp} alt="user.img" />
                                                     </div>
                                                 </div>
                                                 <div>
@@ -217,12 +193,7 @@ const SideBar = ({ onSelectUser }) => {
                             )}
                         </div>
                     </div>
-                    <div className='mt-auto px-1 py-1 flex'>
-                        <button onClick={handelLogOut} className='hover:bg-blue-500 w-8 cursor-pointer rounded-lg hover:scale-110'>
-                            <BiLogOut size={25} />
-                        </button>
-                        <p className='p-1.5'>Logout</p>
-                    </div>
+                    
                 </>
             )}
         </div>
