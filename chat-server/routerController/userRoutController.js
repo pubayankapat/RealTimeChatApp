@@ -52,7 +52,7 @@ export const userLogin = async (req, res) => {
         const user = await User.findOne({ email })
         if (!user) return res.status(500).send({ success: false, message: "Email doesn't exist or Register" })
         const comparePass = bcrypt.compareSync(password, user.password || "")
-        if (!comparePass) return res.status(200).send({ success: false, message: "Email or password is invalid"})
+        if (!comparePass) return res.status(200).send({ success: false, message: "Email or password is invalid" })
 
         jwtToken(user._id, res)
 
@@ -68,18 +68,18 @@ export const userLogin = async (req, res) => {
         res.status(500).send({
             success: false,
             message: error
-        }),console.log(error);
-        
+        }), console.log(error);
+
     }
 }
 
 
-export const userLogout = async(req, res) =>{
+export const userLogout = async (req, res) => {
     try {
-        res.cookie("jwt",'',{
-            maxAge:0
+        res.cookie("jwt", '', {
+            maxAge: 0
         })
-        res.status(200).send({success:true, message: "User logout"})
+        res.status(200).send({ success: true, message: "User logout" })
     } catch (error) {
         res.status(500).send({
             success: false,
@@ -88,11 +88,11 @@ export const userLogout = async(req, res) =>{
     }
 }
 
-export const userProfile = async(req, res) => {
+export const userProfile = async (req, res) => {
     try {
         const { _id } = req.params;
         const profile = await User.findById(_id)
-        if(!profile) return res.status(500).send({success:false, message:"Profile does not exist"})
+        if (!profile) return res.status(500).send({ success: false, message: "Profile does not exist" })
 
         res.status(200).send({
             fullname: profile.fullname,
@@ -107,5 +107,18 @@ export const userProfile = async(req, res) => {
                 message: error
             }
         )
+    }
+}
+
+export const updateImage = async (req, res) => {
+    try {
+        const { imageUrl } = req.body;
+        const user = await User.findByIdAndUpdate(
+            req.user._id,
+            { profilepic: imageUrl } 
+        );
+        res.json(user);
+    } catch (err) {
+        res.status(500).json({ message: "Image update failed" });
     }
 }

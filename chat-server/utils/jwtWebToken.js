@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 
 const jwtToken = (userId, res)=>{
     const token = jwt.sign({userId}, process.env.SECRET_KEY,{
