@@ -10,8 +10,8 @@ authRout.post('/login', userLogin)
 
 authRout.post('/logout', userLogout)
 
-authRout.get('/profile/:_id', isLogin, userProfile)
+authRout.get('/profile', isLogin, userProfile)
 
-authRout.post('/updateImage',isLogin, updateImage)
+authRout.post('/updateImage', isLogin, updateImage)
 
 export default authRout;

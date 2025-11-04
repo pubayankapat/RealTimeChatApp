@@ -8,10 +8,7 @@ import userRout from "./rout/userRout.js";
 import {app, server} from './socket/socket.js';
 import uploadRouter from "./rout/uploadItem.js";
 
-
-
 dotenv.config();
-
 
 dbConnect();
 const PORT = process.env.PORT;
@@ -25,5 +22,5 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/api/auth',authRout);
 app.use('/api/message',messageRout);
-app.use('/api/user',userRout);
-app.use('api/s3Url', uploadRouter);
+app.use('/api/user', userRout);
+app.use('/api/s3Url', uploadRouter);

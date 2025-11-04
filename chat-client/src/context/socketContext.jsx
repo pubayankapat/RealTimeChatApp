@@ -15,25 +15,28 @@ export const SocketContextProvider=({children})=>{
     
     useEffect(()=>{
         if(authUser){
-            const socket = io("http://localhost:3000",{
+            const newSocket = io("http://localhost:3000",{
                 query:{
                     userId: authUser?._id,
                 },
                 transports: ["websocket", "polling"],
 
             })
-            socket.on("getOnlineUsers",(users)=>{
+            newSocket.on("getOnlineUsers",(users)=>{
                 setOnlineUser(users)
             });
-            setSocket(socket);
-            return()=>socket.close();
+            setSocket(newSocket);
+            return()=>newSocket.close();
         }else{
-            if(socket){
-                socket.close();
-                setSocket(null); 
-            }
+            // close any existing socket when authUser becomes null/undefined
+            setSocket(prev => {
+                if(prev){
+                    prev.close();
+                }
+                return null;
+            });
         }
-    },[ authUser ]);
+    },[authUser]);
     return(
     <SocketContext.Provider value={{socket , onlineUser}}>
         {children}

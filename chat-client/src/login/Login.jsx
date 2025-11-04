@@ -24,7 +24,7 @@ const Login = () => {
             const login = await axios.post('/api/auth/login', userInput);
             const data = login.data;
             
-            if (data === false) {
+            if (data.success === false) {
                 setLoading(false);
                 toast.error("Invalid login credentials");
                 return;

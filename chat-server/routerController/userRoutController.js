@@ -1,6 +1,7 @@
 import User from "../models/userModel.js";
 import bcrypt from 'bcrypt';
 import jwtToken from "../utils/jwtWebToken.js";
+import { getS3Url } from "./uploadItemController.js";
 
 
 
@@ -90,7 +91,8 @@ export const userLogout = async (req, res) => {
 
 export const userProfile = async (req, res) => {
     try {
-        const { _id } = req.params;
+        
+        const _id  = req.user._conditions._id;
         const profile = await User.findById(_id)
         if (!profile) return res.status(500).send({ success: false, message: "Profile does not exist" })
 
@@ -112,13 +114,17 @@ export const userProfile = async (req, res) => {
 
 export const updateImage = async (req, res) => {
     try {
-        const { imageUrl } = req.body;
+        const { key } = req.body;
+        const imageUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`
+        console.log(imageUrl)
         const user = await User.findByIdAndUpdate(
-            req.user._id,
+            req.user._conditions._id,
             { profilepic: imageUrl } 
         );
-        res.json(user);
+        res.send({success: true, 
+            profilepic: imageUrl,
+            message: "Image uploaded successsfully"});
     } catch (err) {
-        res.status(500).json({ message: "Image update failed" });
+        res.status(500).send({ success:false, message: "Image update failed" });
     }
 }

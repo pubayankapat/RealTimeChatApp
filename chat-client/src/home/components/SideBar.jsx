@@ -112,12 +112,12 @@ const SideBar = ({ onSelectUser }) => {
                         placeholder='Search User'
                         id='search'
                     />
-                    <button type="submit" className='btn btn-circle bg-sky-700 hover:bg-gray-950 text-white hover:scale-110'>
+                    <button type="submit" className='btn btn-circle bg-sky-700 hover:bg-gray-900 text-white hover:scale-110'>
                         <FaMagnifyingGlass size={20} />
                     </button>
                 </form>
                 <img onClick={() => navigate('/profile')}
-                    src={authUser?.profilepic ? authUser.profilepic : dp}
+                    src={authUser.profilepic || dp}
                     className='self-center h-10 w-10 hover:scale-120 cursor-pointers contain-size rounded-full' />
             </div>
             <div className='divider px-3'></div>
