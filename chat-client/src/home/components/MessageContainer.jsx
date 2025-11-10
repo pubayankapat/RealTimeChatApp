@@ -4,6 +4,8 @@ import { useAuth } from '../../context/AuthContext';
 import { TiMessages } from "react-icons/ti";
 import userConversation from '../../zustans/useConversation';
 import { IoArrowBackSharp, IoSend } from 'react-icons/io5';
+import { HiOutlineEmojiHappy } from "react-icons/hi";
+import EmojiPicker from "emoji-picker-react";
 import axios from 'axios';
 import { useSocketContext } from '../../context/SocketContext';
 import notify from '../../assets/notification.mp3';
@@ -12,21 +14,23 @@ import dp from '../../assets/dp.jpg'
 const MessageContainer = ({ onBackUser }) => {
 
   const { messages, selectedConversation, setMessage } = userConversation();
+  const [showEmoji, setShowEmoji] = useState(false);
   const { socket } = useSocketContext();
   const { authUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
   const [sendData, setSendData] = useState('');
   const lastMessageRef = useRef(null);
+  const pickerRef = useRef(null);
 
-  useEffect(()=>{
-    socket?.on("newMessage",(newMessage)=>{
+  useEffect(() => {
+    socket?.on("newMessage", (newMessage) => {
       const sound = new Audio(notify);
       sound.play();
       setMessage([...messages, newMessage])
     })
-    return ()=> socket?.off("newMessage");
-  },[socket, setMessage, messages])
+    return () => socket?.off("newMessage");
+  }, [socket, setMessage, messages])
 
   useEffect(() => {
     setTimeout(() => {
@@ -53,7 +57,26 @@ const MessageContainer = ({ onBackUser }) => {
     }
     if (selectedConversation?._id) getMessage()
   }, [selectedConversation?._id, setMessage])
+ 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (pickerRef.current && !pickerRef.current.contains(event.target)) {
+        setShowEmoji(false);
+      }
+    };
 
+    if (showEmoji) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showEmoji]);
+
+  const handleEmojiClick = (emojiData) => {
+    setSendData((prev) => prev + emojiData.emoji);
+  };
 
   const handelMessage = (e) => {
     setSendData(e.target.value);
@@ -62,16 +85,16 @@ const MessageContainer = ({ onBackUser }) => {
     e.preventDefault();
     setSending(true);
     try {
-      const res = await axios.post(`/api/message/send/${selectedConversation?._id}`,{message:sendData}); 
+      const res = await axios.post(`/api/message/send/${selectedConversation?._id}`, { message: sendData });
       const data = await res.data;
-       if (data.success === false) {
-          setLoading(false);
-          console.log(data.message);
-        }else{
+      if (data.success === false) {
+        setLoading(false);
+        console.log(data.message);
+      } else {
         setSending(false);
-        setMessage([...messages,data]);
+        setMessage([...messages, data]);
         setSendData('');
-        }
+      }
     } catch (error) {
       setSending(false);
       console.log(error);
@@ -135,18 +158,25 @@ const MessageContainer = ({ onBackUser }) => {
               </div>
             ))}
           </div>
-          <form onSubmit={handelSubmit} className='rounded-full text-black'>
+          <div className='rounded-full text-black'>
             <div className='w-full rounded-full flex item-centre bg-white'>
+              <button
+                onClick={() => setShowEmoji(!showEmoji)}
+                className="text-2xl p-1 hover:text-blue-500 hover:scale-110">
+                <HiOutlineEmojiHappy size={25}/>
+              </button>
+              {showEmoji && (
+                <div ref={pickerRef} className="absolute bottom-14 left-2 z-50">
+                  <EmojiPicker onEmojiClick={handleEmojiClick} />
+                </div>
+              )}
               <input value={sendData} onChange={handelMessage} required id='message' type='text'
                 className='w-full bg-transparent outline-none px-4 rounded-full' />
-              <button type='submit'>
-                {sending ? <div className='loading loading-spinner'></div> :
-                  <IoSend size={25}
-                    className='text-sky-700 cursor-pointer rounded-full bg-gray-800 w-10 h-auto p-1' />
-                }
+              <button type='submit' onClick={handelSubmit}>
+                {sending ? <div className='loading loading-spinner'></div> : <IoSend size={25} className='text-sky-700 cursor-pointer rounded-full bg-gray-800 w-10 h-auto p-1 hover:scale-110' />}
               </button>
             </div>
-          </form>
+          </div>
         </>
       )}
     </div>

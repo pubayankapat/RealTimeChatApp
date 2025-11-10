@@ -1,7 +1,7 @@
 import User from "../models/userModel.js";
 import bcrypt from 'bcrypt';
 import jwtToken from "../utils/jwtWebToken.js";
-import { getS3Url } from "./uploadItemController.js";
+
 
 
 
@@ -29,11 +29,6 @@ export const userRegister = async (req, res) => {
         }
 
         res.status(201).send({
-            _id: newUser._id,
-            fullname: newUser.fullname,
-            username: newUser.username,
-            email: newUser.email,
-            profilepic: newUser.profilepic,
             message: "Successfully registered"
         })
     } catch (error) {
@@ -91,8 +86,8 @@ export const userLogout = async (req, res) => {
 
 export const userProfile = async (req, res) => {
     try {
-        
-        const _id  = req.user._conditions._id;
+
+        const _id = req.user._conditions._id;
         const profile = await User.findById(_id)
         if (!profile) return res.status(500).send({ success: false, message: "Profile does not exist" })
 
@@ -119,12 +114,14 @@ export const updateImage = async (req, res) => {
         console.log(imageUrl)
         const user = await User.findByIdAndUpdate(
             req.user._conditions._id,
-            { profilepic: imageUrl } 
+            { profilepic: imageUrl }
         );
-        res.send({success: true, 
+        res.send({
+            success: true,
             profilepic: imageUrl,
-            message: "Image uploaded successsfully"});
+            message: "Image uploaded successsfully"
+        });
     } catch (err) {
-        res.status(500).send({ success:false, message: "Image update failed" });
+        res.status(500).send({ success: false, message: "Image update failed" });
     }
 }

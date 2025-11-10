@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import { FiMoreVertical } from "react-icons/fi";
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
@@ -103,6 +104,9 @@ const SideBar = ({ onSelectUser }) => {
     return (
         <div className='h-full w-auto px-1'>
             <div className='flex justify-between gap-2'>
+                <button className='hover:scale-120 hover:cursor-pointer'>
+                    <FiMoreVertical size={25}/>
+                </button>
                 <form onSubmit={handelSearchSubmit} className='w-auto flex items-center justify-between bg-white rounded-full text-gray-900'>
                     <input
                         value={searchInput}
@@ -118,7 +122,7 @@ const SideBar = ({ onSelectUser }) => {
                 </form>
                 <img onClick={() => navigate('/profile')}
                     src={authUser.profilepic || dp}
-                    className='self-center h-10 w-10 hover:scale-120 cursor-pointers contain-size rounded-full' />
+                    className='self-center h-10 w-10 contain-size rounded-full hover:scale-120 hover:cursor-pointer' />
             </div>
             <div className='divider px-3'></div>
             {searchUser?.length > 0 ? (
