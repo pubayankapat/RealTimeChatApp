@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import dbConnect from "./database/dbConnect.js";
 import authRout from './rout/authUser.js';
 import messageRout from './rout/messageRout.js';
-import cookieParser from "cookie-parser"
+import cookieParser from "cookie-parser";
 import userRout from "./rout/userRout.js";
 import {app, server} from './socket/socket.js';
 import uploadRouter from "./rout/uploadItem.js";
