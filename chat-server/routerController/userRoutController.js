@@ -111,7 +111,7 @@ export const updateImage = async (req, res) => {
     try {
         const { key } = req.body;
         const imageUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`
-        console.log(imageUrl)
+        // console.log(imageUrl)
         const user = await User.findByIdAndUpdate(
             req.user._conditions._id,
             { profilepic: imageUrl }

@@ -122,7 +122,7 @@ const SideBar = ({ onSelectUser }) => {
                 </form>
                 <img onClick={() => navigate('/profile')}
                     src={authUser.profilepic || dp}
-                    className='self-center h-10 w-10 contain-size rounded-full hover:scale-120 hover:cursor-pointer' />
+                    className='self-center h-10 w-10 object-cover contain-size rounded-full hover:scale-120 hover:cursor-pointer' />
             </div>
             <div className='divider px-3'></div>
             {searchUser?.length > 0 ? (

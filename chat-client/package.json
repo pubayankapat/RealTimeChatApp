@@ -4,14 +4,16 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start":"npm run dev",
+    "start": "npm run dev",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@tailwindcss/vite": "^4.1.11",
+    "axios": "^1.13.2",
     "emoji-picker-react": "^4.15.0",
     "lucide-react": "^0.553.0",
     "react": "^19.1.0",
