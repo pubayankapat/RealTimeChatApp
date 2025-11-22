@@ -1,0 +1,18 @@
+services:
+  backend:
+    build: ./chat-server
+    container_name: backend
+    environment:
+      - PORT=3000         # make sure Node listens on 3000
+    ports:
+      - "3000:3000"
+    restart: always
+
+  frontend:
+    build: ./chat-client
+    container_name: frontend
+    ports:
+      - "80:80"           # host:container, nginx listens on 80 in the container
+    depends_on:
+      - backend
+    restart: always
