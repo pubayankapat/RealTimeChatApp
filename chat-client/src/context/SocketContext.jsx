@@ -15,7 +15,7 @@ export const SocketContextProvider=({children})=>{
     
     useEffect(()=>{
         if(authUser){
-            const newSocket = io("http://localhost:3000",{
+            const newSocket = io("http:Chatrix.chickenkiller.com",{
                 query:{
                     userId: authUser?._id,
                 },

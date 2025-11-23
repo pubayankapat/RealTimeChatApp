@@ -24,7 +24,7 @@ server.listen(PORT, ()=>{
 // Enable CORS for REST APIs (dev: 5173, Docker: 80)
 app.use(cors({
   origin: [
-    "http://localhost:5173", // Vite dev
+    "http://Chatrix.chickenkiller.com", // Vite dev
     "http://localhost"      // Docker / Nginx on port 80
   ],
   methods: ["GET", "POST"],
