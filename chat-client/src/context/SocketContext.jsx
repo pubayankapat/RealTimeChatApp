@@ -15,7 +15,12 @@ export const SocketContextProvider=({children})=>{
     
     useEffect(()=>{
         if(authUser){
-            const newSocket = io("http:Chatrix.chickenkiller.com",{
+            // In dev, connect directly to backend on localhost:3000
+            // In production, connect to the same origin (proxied by Nginx)
+            const SOCKET_URL = import.meta.env.DEV ? "http://localhost:3000" : undefined;
+
+            const newSocket = io(SOCKET_URL,{
+                path: "/socket.io",
                 query:{
                     userId: authUser?._id,
                 },
