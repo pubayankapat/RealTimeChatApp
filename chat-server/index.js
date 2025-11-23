@@ -18,7 +18,7 @@ app.get('/',(req,res)=>{
     res.send("Server working");
 })
 server.listen(PORT, ()=>{
-    console.log(`Working at http://localhost:${PORT}`);
+    console.log(`Server running`);
 })
 
 // Enable CORS for REST APIs (dev: 5173, Docker: 80)
