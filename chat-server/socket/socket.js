@@ -11,7 +11,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
         origin: [
-            "http://Chatrix.chickenkiller.com", // production domain
+            "http://chatrix.chickenkiller.com", // production domain
             "http://localhost",                 // Docker / Nginx on port 80
             "http://localhost:5173"             // Vite dev server
         ],
