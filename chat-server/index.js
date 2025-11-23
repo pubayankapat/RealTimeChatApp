@@ -17,7 +17,7 @@ const PORT = process.env.PORT;
 app.get('/',(req,res)=>{
     res.send("Server working");
 })
-server.listen(PORT, ()=>{
+server.listen(PORT, "0.0.0.0", ()=>{
     console.log(`Server running`);
 })
 
