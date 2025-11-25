@@ -8,6 +8,7 @@ import { AuthContextProvider } from './context/AuthContext';
 import { VerifyUsers } from './utils/VerifyUsers.jsx';
 import Profile from './home/components/Profile.jsx';
 function App() {
+  
   return (
     <>
       <div className='p-2 w-screen h-screen flex items-center justify-center'>

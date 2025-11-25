@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 const Login = () => {
     const navigate = useNavigate()
-    const {setAuthUser} = useAuth();
+    const { setAuthUser } = useAuth();
     const [userInput, setUserInput] = useState({});
 
     const [loading, setLoading] = useState(false);
@@ -16,21 +16,21 @@ const Login = () => {
             ...userInput, [e.target.id]: e.target.value
         })
     }
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         try {
             const login = await axios.post('/api/auth/login', userInput);
             const data = login.data;
-            
+
             if (data.success === false) {
                 setLoading(false);
                 toast.error("Invalid login credentials");
                 return;
             }
             toast.success(data.message);
-            localStorage.setItem('chatrix',JSON.stringify(data));
+            localStorage.setItem('chatrix', JSON.stringify(data));
             setAuthUser(data)
             setLoading(false)
             navigate('/');
