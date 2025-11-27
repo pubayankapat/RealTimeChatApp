@@ -81,8 +81,19 @@ const MessageContainer = ({ onBackUser }) => {
   const handelMessage = (e) => {
     setSendData(e.target.value);
   }
+
+  // Enter -> send, Shift+Enter -> newline
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handelSubmit(e);
+    }
+  }
+
   const handelSubmit = async (e) => {
     e.preventDefault();
+    if (!sendData.trim()) return; // don't send empty messages
+
     setSending(true);
     try {
       const res = await axios.post(`/api/message/send/${selectedConversation?._id}`, { message: sendData });
@@ -170,8 +181,15 @@ const MessageContainer = ({ onBackUser }) => {
                   <EmojiPicker onEmojiClick={handleEmojiClick} />
                 </div>
               )}
-              <input value={sendData} onChange={handelMessage} required id='message' type='text'
-                className='w-full bg-transparent outline-none px-4 rounded-full' />
+              <textarea
+                value={sendData}
+                onChange={handelMessage}
+                onKeyDown={handleKeyDown}
+                required
+                id='message'
+                rows={1}
+                className='w-full bg-transparent outline-none px-4 rounded-full resize-none'
+              />
               <button type='submit' onClick={handelSubmit}>
                 {sending ? <div className='loading loading-spinner'></div> : <IoSend size={25} className='text-sky-700 cursor-pointer rounded-full bg-gray-800 w-10 h-auto p-1 hover:scale-110' />}
               </button>

@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import SideBar from './components/SideBar';
 import MessageContainer from './components/MessageContainer';
 
-export const Home = () => {
 
+export const Home = () => {
+  
   const [selectedUser, setSelectedUser] = useState();
   const [isSideBarVisible, setIsSideBarVisible] = useState(true);
+  
 
   const handelUserSelect = (user) => {
     setSelectedUser(user);
