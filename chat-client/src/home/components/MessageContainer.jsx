@@ -159,7 +159,10 @@ const MessageContainer = ({ onBackUser }) => {
               <div className='text-white' key={message?._id} ref={lastMessageRef}>
                 <div className={`chat ${message.senderId === authUser._id ? 'chat-end' : 'chat-start'}`}>
                   <div className='chat-image avatar'></div>
-                  <div className={`chat-bubble ${message.senderId === authUser._id ? 'bg-sky-600' : ''}`}>
+                  <div
+                    className={`chat-bubble ${message.senderId === authUser._id ? 'bg-sky-600' : ''}`}
+                    style={{ whiteSpace: 'pre-wrap' }}
+                  >
                     {message?.message}
                   </div>
                   <div className='chat-footer text-[10px] opacity-80 text-white'>
