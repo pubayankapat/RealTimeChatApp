@@ -132,12 +132,12 @@ const MessageContainer = ({ onBackUser }) => {
               <div className='md:hidden ml-1 self-center'>
                 <button onClick={() => onBackUser(true)} className='bg-black rounded-full px-2 py-1
                   self-center'>
-                  <IoArrowBackSharp size={25} />
+                  <IoArrowBackSharp size={12} />
                 </button>
               </div>
               <div className='flex justify-between mr-2 gap-2'>
                 <div className='self-center'>
-                  <img className='rounded-full object-cover w-6 h-6 md:w-10 md:h-10 cursor-pointer' src={selectedConversation?.profilepic || dp} />
+                  <img className='rounded-full object-cover w-8 h-8 md:w-10 md:h-10 cursor-pointer' src={selectedConversation?.profilepic || dp} />
                 </div>
                 <span className='text-gray-950 self-center text-sm md:text-xl font-bold'>
                   {selectedConversation?.username}
