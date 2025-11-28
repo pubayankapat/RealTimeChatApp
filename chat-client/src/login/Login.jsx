@@ -7,9 +7,8 @@ import { useAuth } from "../context/AuthContext";
 const Login = () => {
     const navigate = useNavigate()
     const { setAuthUser } = useAuth();
-    const [userInput, setUserInput] = useState({});
-
-    const [loading, setLoading] = useState(false);
+    const [ userInput, setUserInput ] = useState({});
+    const [ loading, setLoading ] = useState(false);
 
     const handleInput = (e) => {
         setUserInput({
@@ -23,7 +22,6 @@ const Login = () => {
         try {
             const login = await axios.post('/api/auth/login', userInput);
             const data = login.data;
-
             if (data.success === false) {
                 setLoading(false);
                 toast.error("Invalid login credentials");
@@ -31,8 +29,8 @@ const Login = () => {
             }
             toast.success(data.message);
             localStorage.setItem('chatrix', JSON.stringify(data));
-            setAuthUser(data)
-            setLoading(false)
+            setAuthUser(data);
+            setLoading(false);
             navigate('/');
         } catch (error) {
             console.error(error);
