@@ -11,7 +11,7 @@ import { FaEdit } from "react-icons/fa";
 function Profile() {
   const navigate = useNavigate();
   const { authUser, setAuthUser } = useAuth();
-  const [ setLoading ] = useState(false);
+  const [ Loading, setLoading ] = useState(false);
   const [image, setImage] = useState(authUser.profilepic);
   const [file, setFile] = useState(null);
   const [upload, setUpload] = useState(false);
@@ -67,8 +67,9 @@ function Profile() {
         toast.error(data.message);
       } else {
         const user = JSON.parse(localStorage.getItem("chatrix"));  // 1️⃣ get
-        user.profilepic = response.data.profilepic;                            // 2️⃣ update field
+        user.profilepic = response.data.profilepic;                 // 2️⃣ update field
         localStorage.setItem("chatrix", JSON.stringify(user));
+        setAuthUser(user);                                          // 3️⃣ update context so Home sees new data
         toast.success(data.message);
       }
 
