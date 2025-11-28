@@ -93,6 +93,9 @@ const SideBar = ({ onSelectUser }) => {
         setSelectedConversation(user);
         setSelectedUserId(user._id);
         setNewMessageUsers('');
+        if(searchUser){
+            setSearchUser([]);
+        }
     }
 
     const handelSearchback = () => {
