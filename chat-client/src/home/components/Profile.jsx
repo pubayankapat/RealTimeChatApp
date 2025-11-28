@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import axios from 'axios'
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -11,32 +11,12 @@ import { FaEdit } from "react-icons/fa";
 function Profile() {
   const navigate = useNavigate();
   const { authUser, setAuthUser } = useAuth();
-  const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [image, setImage] = useState("");
+  const [ setLoading ] = useState(false);
+  const [image, setImage] = useState(authUser.profilepic);
   const [file, setFile] = useState(null);
   const [upload, setUpload] = useState(false);
 
   const fileInputRef = useRef(null);
-
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const res = await axios.get(`/api/auth/profile`);
-        const data = res.data
-        setProfile(data);
-        setImage(data?.profilepic)
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, [authUser]);
-
 
 
   // Trigger file picker
@@ -126,8 +106,7 @@ function Profile() {
     navigate('/', { state: { refresh: true } });
   }
 
-  if (loading) return <p className="text-gray-500 text-center">Loading profile...</p>;
-  if (!profile) return <p className="text-red-500 text-center">Profile not found.</p>;
+  if (!authUser) <p className="text-red-500 text-center">Profile not found.</p>;
 
   return (
     <div className="p-6 border rounded-2xl shadow-md w-80 mx-auto mt-6 backdrop-filter backdrop-blur-lg bg-opacity-0">
@@ -159,9 +138,9 @@ function Profile() {
           }
 
         </div>
-        <h2 className="text-xl font-semibold">{profile.fullname}</h2>
-        <p className="text-blue-500">{profile.username}</p>
-        <p className="text-green-600 mt-2">{profile.email}</p>
+        <h2 className="text-xl font-semibold">{authUser.fullname}</h2>
+        <p className="text-blue-500">{authUser.username}</p>
+        <p className="text-green-600 mt-2">{authUser.email}</p>
       </div>
       <div className='mt-auto px-1 py-1 flex justify-between'>
         <div className="flex">

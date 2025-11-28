@@ -84,28 +84,6 @@ export const userLogout = async (req, res) => {
     }
 }
 
-export const userProfile = async (req, res) => {
-    try {
-
-        const _id = req.user._conditions._id;
-        const profile = await User.findById(_id)
-        if (!profile) return res.status(500).send({ success: false, message: "Profile does not exist" })
-
-        res.status(200).send({
-            fullname: profile.fullname,
-            username: profile.username,
-            profilepic: profile.profilepic,
-            email: profile.email
-        })
-    } catch (error) {
-        res.status(500).send(
-            {
-                success: false,
-                message: error
-            }
-        )
-    }
-}
 
 export const updateImage = async (req, res) => {
     try {
@@ -125,3 +103,4 @@ export const updateImage = async (req, res) => {
         res.status(500).send({ success: false, message: "Image update failed" });
     }
 }
+
