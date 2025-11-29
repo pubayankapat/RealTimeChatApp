@@ -144,7 +144,7 @@ const SideBar = ({ onSelectUser }) => {
                                             </div>
                                         </div>
                                         <div className='flex flex-col flex-1'>
-                                            <p className='font-bold text-gray-950'>{user.username}</p>
+                                            <p className='font-bold text-gray-300'>{user.username}</p>
                                         </div>
                                     </div>
                                     <div className='divider divide-solid px-3 h-[1px]'></div>
@@ -155,7 +155,7 @@ const SideBar = ({ onSelectUser }) => {
                     </div>
                     <div className='mt-auto px-1 py-1 flex'>
                         <button onClick={handelSearchback} className='bg-white rounded-full px-2 py-1 self-center hover:scale-110'>
-                            <ArrowLeftIcon className="w-6 h-6 text-gray-700" />
+                            <ArrowLeftIcon className="w-6 h-6 text-gray-300" />
                         </button>
 
                     </div>
@@ -166,7 +166,7 @@ const SideBar = ({ onSelectUser }) => {
                         <div className='w-auto'>
                             {chatUser.length === 0 ? (
                                 <>
-                                    <div className='font-bold text-xl items-centre flex flex-col text-green-400'>
+                                    <div className='font-bold text-xl items-centre flex flex-col text-white'>
                                         <h1>Search username</h1>
                                         <h1>!!Start chat with someone</h1>
                                     </div>
