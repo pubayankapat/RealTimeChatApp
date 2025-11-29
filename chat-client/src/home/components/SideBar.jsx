@@ -79,7 +79,6 @@ const SideBar = ({ onSelectUser }) => {
             }
             else {
                 setSearchUser(data);
-                setSearchInput('');
             }
         } catch (error) {
             setLoading(false)
@@ -93,7 +92,8 @@ const SideBar = ({ onSelectUser }) => {
         setSelectedConversation(user);
         setSelectedUserId(user._id);
         setNewMessageUsers('');
-        if(searchUser){
+        if(searchInput || searchUser){
+            setSearchInput('');
             setSearchUser([]);
         }
     }
