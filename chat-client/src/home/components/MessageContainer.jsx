@@ -160,7 +160,7 @@ const MessageContainer = ({ onBackUser }) => {
                 <div className={`chat ${message.senderId === authUser._id ? 'chat-end' : 'chat-start'}`}>
                   <div className='chat-image avatar'></div>
                   <div
-                    className={`chat-bubble ${message.senderId === authUser._id ? 'bg-sky-600' : ''}`}
+                    className={`chat-bubble ${message.senderId === authUser._id ? 'bg-sky-600' : 'bg-green-400'}`}
                     style={{ whiteSpace: 'pre-wrap' }}
                   >
                     {message?.message}
