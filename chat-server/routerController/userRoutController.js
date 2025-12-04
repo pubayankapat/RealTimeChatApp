@@ -23,7 +23,6 @@ export const userRegister = async (req, res) => {
 
         if (newUser) {
             await newUser.save();
-            jwtToken(newUser._id, res)
         } else {
             res.status(500).send({ success: false, message: "Invalid user" });
         }

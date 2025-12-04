@@ -9,6 +9,7 @@ import Profile from './home/components/Profile.jsx';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from './context/AuthContext';
+import EmailVerification from './verification/EmailVerification.jsx';
 
 function App() {
   const navigate = useNavigate();
@@ -44,6 +45,7 @@ function App() {
         <Routes>
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/verification' element={<EmailVerification />}/>
           <Route element={<VerifyUsers />}>
             <Route path='/' element={<Home />} />
             <Route path='/profile' element={<Profile />} />

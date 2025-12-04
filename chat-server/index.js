@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from 'dotenv';
-import dbConnect from "./database/dbConnect.js";
+import dbConnect from "./connection/dbConnect.js";
 import authRout from './rout/authUser.js';
 import messageRout from './rout/messageRout.js';
 import cookieParser from "cookie-parser";
@@ -9,6 +9,7 @@ import {app, server} from './socket/socket.js';
 import uploadRouter from "./rout/uploadItem.js";
 import cors from 'cors';
 import groupRout from "./rout/groupRout.js";
+import otpRout from "./rout/otpRout.js";
 
 dotenv.config();
 
@@ -34,8 +35,9 @@ app.use(cors({
 
 app.use(express.json());
 app.use(cookieParser());
-app.use('/api/auth',authRout);
-app.use('/api/message',messageRout);
+app.use('/api/otp', otpRout)
+app.use('/api/auth', authRout);
+app.use('/api/message', messageRout);
 app.use('/api/user', userRout);
 app.use('/api/s3Url', uploadRouter);
 app.use('/api/create', groupRout);
