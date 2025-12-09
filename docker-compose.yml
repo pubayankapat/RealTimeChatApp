@@ -1,4 +1,6 @@
 services:
+  redis:
+    image: redis:7
   backend:
     build: ./chat-server
     container_name: backend
@@ -6,7 +8,11 @@ services:
       - PORT=3000         # make sure Node listens on 3000
     ports:
       - "3000:3000"
+    depends_on:
+      - redis
+  
     restart: always
+
 
   frontend:
     build: ./chat-client
@@ -16,3 +22,5 @@ services:
     depends_on:
       - backend
     restart: always
+
+   
