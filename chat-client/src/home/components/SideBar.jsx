@@ -154,7 +154,7 @@ const SideBar = ({ onSelectUser }) => {
                         </div>
                     </div>
                     <div className='mt-auto px-1 py-1 flex'>
-                        <button onClick={handelSearchback} className='bg-white rounded-full px-2 py-1 self-center hover:scale-110'>
+                        <button onClick={handelSearchback} className='bg-blue-500 rounded-full px-2 py-1 self-center hover:scale-110'>
                             <ArrowLeftIcon className="w-6 h-6 text-gray-300" />
                         </button>
 

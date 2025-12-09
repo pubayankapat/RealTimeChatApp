@@ -56,6 +56,7 @@ export const userLogin = async (req, res) => {
             fullname: user.fullname,
             username: user.username,
             profilepic: user.profilepic,
+            gender: user.gender,
             email: user.email,
             message: "Successfully login"
         })

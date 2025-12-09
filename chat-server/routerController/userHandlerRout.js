@@ -47,7 +47,8 @@ export const getCurrentChatters = async(req,res) => {
 
             const otherParticipentsIDS = partcipantsIDS.filter(id => id.toString() !== currentUserID.toString());
 
-            const user = await User.find({_id:{$in:otherParticipentsIDS}}).select("-password").select("-email");
+            // Include all user fields except password so email is available in the client
+            const user = await User.find({ _id: { $in: otherParticipentsIDS } }).select("-password");
 
             const users = otherParticipentsIDS.map(id => user.find(user => user._id.toString() === id.toString()));
 

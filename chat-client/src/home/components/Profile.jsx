@@ -6,12 +6,13 @@ import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import dp from '../../assets/dp.jpg'
 import { toast } from 'sonner';
 import { BiLogOut } from "react-icons/bi";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaMale, FaFemale, FaTransgenderAlt } from "react-icons/fa";
+
 
 function Profile() {
   const navigate = useNavigate();
   const { authUser, setAuthUser } = useAuth();
-  const [ Loading, setLoading ] = useState(false);
+  const [Loading, setLoading] = useState(false);
   const [image, setImage] = useState(authUser.profilepic);
   const [file, setFile] = useState(null);
   const [upload, setUpload] = useState(false);
@@ -140,6 +141,14 @@ function Profile() {
 
         </div>
         <h2 className="text-xl font-semibold">{authUser.fullname}</h2>
+        <div className="text-green-300">
+          {authUser?.gender === "male" ? (
+            <FaMale className='w-5 h-5' />
+          ) : authUser?.gender === "female" ? (
+            <FaFemale className='w-5 h-5' />
+          ) : (
+            <FaTransgenderAlt className='w-5 h-5' />
+          )}</div>
         <p className="text-blue-500">{authUser.username}</p>
         <p className="text-green-600 mt-2">{authUser.email}</p>
       </div>

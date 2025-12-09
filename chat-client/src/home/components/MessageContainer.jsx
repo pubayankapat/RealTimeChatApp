@@ -4,7 +4,9 @@ import { useAuth } from '../../context/AuthContext';
 import { TiMessages } from "react-icons/ti";
 import userConversation from '../../zustans/useConversation';
 import { IoArrowBackSharp, IoSend } from 'react-icons/io5';
+import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { HiOutlineEmojiHappy } from "react-icons/hi";
+import { FaMale, FaFemale, FaTransgenderAlt } from 'react-icons/fa';
 import EmojiPicker from "emoji-picker-react";
 import axios from 'axios';
 import { useSocketContext } from '../../context/SocketContext';
@@ -14,6 +16,7 @@ import dp from '../../assets/dp.jpg'
 const MessageContainer = ({ onBackUser }) => {
 
   const { messages, selectedConversation, setMessage } = userConversation();
+  const [showProfile, setShowProfile] = useState(false);
   const [showEmoji, setShowEmoji] = useState(false);
   const { socket } = useSocketContext();
   const { authUser } = useAuth();
@@ -57,7 +60,7 @@ const MessageContainer = ({ onBackUser }) => {
     }
     if (selectedConversation?._id) getMessage()
   }, [selectedConversation?._id, setMessage])
- 
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (pickerRef.current && !pickerRef.current.contains(event.target)) {
@@ -112,6 +115,13 @@ const MessageContainer = ({ onBackUser }) => {
     }
   }
 
+  const handelShowProfile = () => {
+    setShowProfile(true);
+  }
+  const handelback = () => {
+    setShowProfile(false);
+  }
+
   return (
     <div className='md:min-w-[500px] h-[99%] flex flex-col py-2'>
       {selectedConversation === null ? (
@@ -135,13 +145,22 @@ const MessageContainer = ({ onBackUser }) => {
                   <IoArrowBackSharp size={12} />
                 </button>
               </div>
-              <div className='flex justify-between mr-2 gap-2'>
+              <div className='flex justify-between mr-2 gap-2 flex-row hover:cursor-pointer' onClick={handelShowProfile}>
                 <div className='self-center'>
-                  <img className='rounded-full object-cover w-8 h-8 md:w-10 md:h-10 cursor-pointer' src={selectedConversation?.profilepic || dp} />
+                  <img className='rounded-full object-cover w-8 h-8 md:w-10 md:h-10 hover:scale-110' src={selectedConversation?.profilepic || dp} />
                 </div>
                 <span className='text-gray-950 self-center text-sm md:text-xl font-bold'>
                   {selectedConversation?.username}
                 </span>
+                {/* <div className='text-green-300 self-center'>
+                  {selectedConversation?.gender === "male" ? (
+                    <FaMale className='w-5 h-5' />
+                  ) : selectedConversation?.gender === "female" ? (
+                    <FaFemale className='w-5 h-5' />
+                  ) : (
+                    <FaTransgenderAlt className='w-5 h-5' />
+                  )}
+                </div> */}
               </div>
             </div>
           </div>
@@ -177,7 +196,7 @@ const MessageContainer = ({ onBackUser }) => {
               <button
                 onClick={() => setShowEmoji(!showEmoji)}
                 className="text-2xl p-1 hover:text-blue-500 hover:scale-110">
-                <HiOutlineEmojiHappy size={25}/>
+                <HiOutlineEmojiHappy size={25} />
               </button>
               {showEmoji && (
                 <div ref={pickerRef} className="absolute bottom-14 left-2 z-50">
@@ -200,6 +219,38 @@ const MessageContainer = ({ onBackUser }) => {
           </div>
         </>
       )}
+      {showProfile &&
+        <div className='fixed inset-0 z-50 bg-black/60 flex items-center justify-center'>
+          <div className="p-6 w-80 border rounded-2xl shadow-md backdrop-blur-lg bg-white/10">
+            <div className="flex">
+              <button onClick={handelback} className='hover:bg-green-500 rounded-full px-2 py-1 self-center hover:scale-110 bg-blue-500'>
+                <ArrowLeftIcon className="w-5 h-6 text-white-700" />
+              </button>
+              <p className="p-1.5">Back</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="relative w-32 h-32">
+                <img
+                  src={selectedConversation.profilepic || dp}
+                  alt="Profile"
+                  className="w-full h-full rounded-full object-cover border-2 border-gray-300 shadow-sm"
+                />
+              </div>
+              <h2 className="text-xl font-semibold">{selectedConversation.fullname}</h2>
+              <div className="text-green-300">
+                {selectedConversation?.gender === "male" ? (
+                  <FaMale className='w-5 h-5' />
+                ) : selectedConversation?.gender === "female" ? (
+                  <FaFemale className='w-5 h-5' />
+                ) : (
+                  <FaTransgenderAlt className='w-5 h-5' />
+                )}</div>
+              <p className="text-blue-500">{selectedConversation.username}</p>
+              <p className="text-green-600 mt-2">{selectedConversation.email}</p>
+            </div>
+          </div>
+        </div>
+      }
     </div>
   )
 }
