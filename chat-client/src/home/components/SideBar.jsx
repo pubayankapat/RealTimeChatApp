@@ -13,11 +13,11 @@ import dp from '../../assets/dp.jpg'
 const SideBar = ({ onSelectUser }) => {
     const navigate = useNavigate();
     const { authUser } = useAuth()
-    const [searchInput, setSearchInput] = useState('');
-    const [searchUser, setSearchUser] = useState([]);
-    const [chatUser, setChatUser] = useState([]);
-    const [Loading, setLoading] = useState(false);
-    const [selectedUserId, setSelectedUserId] = useState(null);
+    const [ searchInput, setSearchInput ] = useState('');
+    const [ searchUser, setSearchUser ] = useState([]);
+    const [ chatUser, setChatUser ] = useState([]);
+    const [ Loading, setLoading ] = useState(false);
+    const [ selectedUserId, setSelectedUserId ] = useState(null);
     const [ newMessageUsers, setNewMessageUsers ] = useState('');
     const { messages, setSelectedConversation } = userConversation();
     const { onlineUser, socket } = useSocketContext();
@@ -44,24 +44,12 @@ const SideBar = ({ onSelectUser }) => {
         chatUserHandler()
 
     }, []);
-
-    //chat function 
-    const nowChatOnline = chatUser.map((user) => (user._id));
-    const isChatOnline = nowChatOnline.map((userId) => onlineUser.includes(userId));
-    
-    // Search function
-    const nowSearchOnline = searchUser.map((user) => (user._id))
-    const isSearchOnline = nowSearchOnline.map((userId) => onlineUser.includes(userId))
-
     useEffect(()=>{
         socket?.on("newMessage",(newMessage)=>{
           setNewMessageUsers(newMessage)          
         })
         return ()=> socket?.off("newMessage");
       },[socket, messages])
-    
-  
-
 
     const handelSearchSubmit = async (e) => {
         e.preventDefault();
@@ -102,6 +90,14 @@ const SideBar = ({ onSelectUser }) => {
         setSearchUser([]);
         setSearchInput('');
     }
+
+    // Search function
+    const nowSearchOnline = searchUser.map((user) => (user._id))
+    const isSearchOnline = nowSearchOnline.map((userId) => onlineUser.includes(userId))
+    
+    //chat function 
+    const nowChatOnline = chatUser.map((user) => (user._id));
+    const isChatOnline = nowChatOnline.map((userId) => onlineUser.includes(userId));
 
 
     return (

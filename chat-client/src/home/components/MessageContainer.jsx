@@ -18,13 +18,15 @@ const MessageContainer = ({ onBackUser }) => {
   const { messages, selectedConversation, setMessage } = userConversation();
   const [showProfile, setShowProfile] = useState(false);
   const [showEmoji, setShowEmoji] = useState(false);
-  const { socket } = useSocketContext();
+  const { socket, onlineUser } = useSocketContext();
   const { authUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
   const [sendData, setSendData] = useState('');
   const lastMessageRef = useRef(null);
   const pickerRef = useRef(null);
+
+  const isOnline = selectedConversation?._id && onlineUser?.includes(selectedConversation._id);
 
   useEffect(() => {
     socket?.on("newMessage", (newMessage) => {
@@ -146,8 +148,10 @@ const MessageContainer = ({ onBackUser }) => {
                 </button>
               </div>
               <div className='flex justify-between mr-2 gap-2 flex-row hover:cursor-pointer' onClick={handelShowProfile}>
-                <div className='self-center'>
-                  <img className='rounded-full object-cover w-8 h-8 md:w-10 md:h-10 hover:scale-110' src={selectedConversation?.profilepic || dp} />
+                <div className={`avatar ${isOnline ? 'avatar-online' : ''} self-center`}>
+                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-full">
+                    <img className='object-cover w-full h-full hover:scale-110' src={selectedConversation?.profilepic || dp} />
+                  </div>
                 </div>
                 <span className='text-gray-950 self-center text-sm md:text-xl font-bold'>
                   {selectedConversation?.username}
