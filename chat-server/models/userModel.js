@@ -25,6 +25,9 @@ const userSchema = new mongoose.Schema({
         require: true,
         minLength: 6
     },
+    s3Key:{
+        type: String
+    },
     profilepic: {
         type: String,
         default:""

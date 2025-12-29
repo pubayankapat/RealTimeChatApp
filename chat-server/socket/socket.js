@@ -2,8 +2,6 @@ import express from 'express';
 import { Server } from 'socket.io';
 import http from 'http';
 
-
-
 const app = express();
 
 const server = http.createServer(app);
@@ -19,12 +17,9 @@ const io = new Server(server, {
         credentials: true,
     },
 });
-
-export const getRecieverSocketId = (recieverId) => {
-    return userSocketmap[recieverId];
-}
-
+// In-memory map to store connected user 
 const userSocketmap = {};
+
 io.on('connection', (socket) => {
     const userId = socket.handshake.query.userId;
 
@@ -45,5 +40,11 @@ io.on('connection', (socket) => {
             io.emit('getOnlineUsers', Object.keys(userSocketmap));
     });
 });
+
+export const getRecieverSocketId = (recieverId) => {
+    return userSocketmap[recieverId];
+}
+
+
 
 export { app, io, server }

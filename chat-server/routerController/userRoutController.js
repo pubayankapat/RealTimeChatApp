@@ -92,7 +92,10 @@ export const updateImage = async (req, res) => {
         // console.log(imageUrl)
         const user = await User.findByIdAndUpdate(
             req.user._conditions._id,
-            { profilepic: imageUrl }
+            {   
+                s3Key: key,
+                profilepic: imageUrl 
+            }
         );
         res.send({
             success: true,
